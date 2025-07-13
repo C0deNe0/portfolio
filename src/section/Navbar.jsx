@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { socials } from "../constants";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { Link } from "react-scroll";
 
 const Navbar = () => {
@@ -25,12 +25,12 @@ const Navbar = () => {
     tl.current = gsap
       .timeline({ paused: true })
       .to(navRef.current, {
-        xPercent: 0, //animate to 0 percent => make it full visible
+        xPercent: 0,
         duration: 1,
         ease: "power3.out",
       })
       .to(
-        linkRef,
+        linkRef.current,
         {
           autoAlpha: 1,
           x: 0,
@@ -38,17 +38,17 @@ const Navbar = () => {
           duration: 0.5,
           ease: "power2.out",
         },
-        "<" // this positional parameter tells the gsap to run the both timeline components at same time.
+        "<"
       )
       .to(
-        contactRef,
+        contactRef.current,
         {
           autoAlpha: 1,
           x: 0,
           duration: 0.5,
           ease: "power2.out",
         },
-        "<+0.2" //this means start this animation after 0.2 sec after previous animation starts
+        "<+0.2"
       );
 
     iconTl.current = gsap
@@ -67,27 +67,15 @@ const Navbar = () => {
           duration: 0.3,
           ease: "power2.inOut",
         },
-        "<" //run at the same time as above animation
+        "<"
       );
   }, []);
-
-  const toggleMenu = () => {
-    if (isOpen) {
-      tl.current.reserve();
-      iconTl.current.reverse();
-    } else {
-      tl.current.play();
-      iconTl.current.play();
-    }
-
-    setIsOpen(!isOpen);
-  };
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      let currentScrollY = window.scrollY;
 
       setShowBurger(currentScrollY <= lastScrollY || currentScrollY < 10);
       lastScrollY = currentScrollY;
@@ -100,6 +88,18 @@ const Navbar = () => {
     );
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const toggleMenu = () => {
+    if (isOpen) {
+      tl.current.reverse();
+      iconTl.current.reverse();
+    } else {
+      tl.current.play();
+      iconTl.current.play();
+    }
+
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -116,7 +116,7 @@ const Navbar = () => {
               <Link
                 to={`${section}`}
                 smooth
-                offset={0.2}
+                offset={0}
                 duration={2000}
                 className="transition-all duration-300 cursor-pointer hover:text-white"
               >
@@ -155,9 +155,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      //burger logic
+      {/* burger logic */}
       <div
-        className="fixed   z-50 flex flex-col items-center justify-center gap-1 transition-all duration-300 bg-black rounded-full cursor-pointer w-14 h-14 md:h-20  top-4 right-10 "
+        className="fixed  z-50 flex flex-col items-center justify-center gap-1 transition-all duration-300 bg-black rounded-full cursor-pointer w-14 h-14 md:h-20 md:w-20 top-4 right-10 "
         onClick={toggleMenu}
         style={
           showBurger
