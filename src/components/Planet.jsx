@@ -12,6 +12,7 @@ export function Planet(props) {
   const shapeContainer = useRef(null);
   const sphereContainer = useRef(null);
   const ringContainer = useRef(null);
+  const chotaShpere = useRef(null);
   const { nodes, materials } = useGLTF("/models/Planet.glb");
 
   useGSAP(() => {
@@ -71,6 +72,7 @@ export function Planet(props) {
           rotation={[0, 0, 0.741]}
         />
         <mesh
+          ref={chotaShpere}
           castShadow
           receiveShadow
           geometry={nodes.Sphere2.geometry}

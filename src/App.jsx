@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "./section/Hero";
 import Navbar from "./section/Navbar";
 import TextPressure from "./components/textPressure";
+import Summary from "./section/Summary";
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
         <Navbar />
         <Hero />
       </div>
+      <Summary />
       {/* <div style={{ position: "relative", height: "300px" }}>
         <TextPressure
           text="Naveen Hiremath"
